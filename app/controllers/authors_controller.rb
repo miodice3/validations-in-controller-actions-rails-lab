@@ -1,3 +1,4 @@
+require 'pry'
 class AuthorsController < ApplicationController
   def show
     @author = Author.find(params[:id])
@@ -6,10 +7,25 @@ class AuthorsController < ApplicationController
   def new
   end
 
-  def create
-    @author = Author.create!(author_params)
+  # def create
+  #   @author = Author.create!(author_params)
 
-    redirect_to author_path(@author)
+  #   redirect_to author_path(@author)
+  # end
+
+  def create
+    @author = Author.new(author_params)
+    #byebug
+    binding.pry
+    if @author.valid?
+      @author.save
+      redirect_to author_path(@author)
+    else
+      render :new
+    end
+    # @author = Author.create!(author_params)
+
+    # redirect_to author_path(@author)
   end
 
   private
